@@ -24,7 +24,10 @@ with open(input_file, 'rb') as csvfile:
             time_data.append(mytime)
             type_data.append(mytype)
     x = range(24)
-    y = list()
+    x1 = list()
+    x2 = list()
+    y1 = list()
+    y2 = list()
     y_dict = {}
     for mytime in time_data:
         h = int(time.strftime('%H', mytime))
@@ -33,8 +36,15 @@ with open(input_file, 'rb') as csvfile:
         else:
             y_dict[h] = 1
     for var in x:
-        y.append(y_dict[var])
-    plt.bar(x,y)
+        if y_dict[var] < 1400:
+            y1.append(y_dict[var])
+            x1.append(var)
+        else:
+            y2.append(y_dict[var])
+            x2.append(var)
+    ll = plt.bar(x1,y1)
+    hl = plt.bar(x2,y2,color='r')
+    plt.legend((ll[0], hl[0]), ('Low level', 'High level'))
     plt.xlim(0, 24)
     plt.xticks(range(25))
     plt.xlabel('Hour of the day')
